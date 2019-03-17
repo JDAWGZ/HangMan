@@ -1,0 +1,51 @@
+import random #Imports the ability to a pick a random word from the list
+
+WordList = ['fjord', 'jazz', 'buzzard', 'axiom', 'dirndl', 'ivo', 'kayak',
+            'euouae', 'gizmo', 'ivory', 'caliph', 'megahertz',
+            'onyx', 'larynx', 'pixel', 'yoked', 'foxglove', 'azure',
+            'banjo', 'boggle', 'exodus', 'bayou', 'galvanize',
+            'fuchsia', 'lymph', 'marquis', 'jockey',
+            'kilobyte', 'klutz', 'matrix', 'vixen'] #List of playable words
+
+def Hangman(list):
+    word = random.choice(list) #assigns random item from list to word
+    #print(word)
+    print("The word is " + str(len(word)) + " letters long.") #prints length of word
+    wordList = []
+    hiddenList = []
+    for letter in word:
+        wordList.append(str(letter)) # puts letters in word in list
+        hiddenList.append("_") #puts underlines in other list in place of letters
+    #print(wordList)
+    print(" ".join(hiddenList)) #prints list with underlines in between items
+    guesses = 10
+    while guesses > 0:
+        guess = input("You have " + str(guesses) + " lives remaining. What is your guess? ") #tells you have many lives remain and asks what the guess is
+        CorNo = 0 #When it is 1 there is atleast one correct letter. When it is 0 there are no correct values and the score decreases by 1.
+        number = 0
+        for item in wordList:
+            if guess == wordList[number]: #if the guess is in the word
+                hiddenList[number] = guess #sets corresponding underline to the correct letter
+                CorNo = 1
+            number = number + 1 #the number increases each time so each letter in word is tested
+        print(" ".join(hiddenList)) #Prints list with underlines
+        if CorNo == 0: #it is no when there none of the letters are correct. it subtracts one point from guesses
+            guesses = guesses - 1
+
+        #When the word is guessed correctly:
+        PlayAgain = ""
+        if hiddenList == wordList: #If the actual list is equal to the hidden list:
+            PlayAgain = input("You guessed the word! Do you want to play again? Y/N ")
+            if str(PlayAgain) == "Y": #if the person responds with y it begins the program again
+                Hangman(WordList)
+            else:
+                return(WordList) #else it ends the program.
+    #When there are no more guesses:
+    PlayAgain = input("You ran out of lives! The Word Was " + word + ". Do you want to play again? Y/N ")
+    if str(PlayAgain) == "Y": #if they say yes then the program begins again
+        Hangman(WordList)
+    else:
+        return(WordList) #ends program
+
+
+Hangman(WordList)
